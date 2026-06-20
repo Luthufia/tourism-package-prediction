@@ -1,1 +1,46 @@
-name: Tourism Pipeline
+name: Tourism MLOps Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  train-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas
+          pip install scikit-learn
+          pip install xgboost
+          pip install joblib
+          pip install huggingface_hub
+          pip install mlflow
+          pip install streamlit
+
+      - name: Register Dataset
+        run: python src/data_register.py
+
+      - name: Prepare Data
+        run: python src/prep.py
+
+      - name: Train Model
+        run: python src/train.py
+
+      - name: Deploy to Hugging Face Space
+        run: python hosting/hosting.py
