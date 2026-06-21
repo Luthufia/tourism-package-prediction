@@ -15,7 +15,7 @@ api = HfApi(token=HF_TOKEN)
 # Hugging Face Space Repository
 # --------------------------------------------------
 
-repo_id = "Luthufia/tourism-package-prediction-app"
+repo_id = "Luthufia/tourism-package-prediction-app-v2"
 
 # --------------------------------------------------
 # Check whether Space exists
